@@ -1,0 +1,17 @@
+# Starts MariaDB with the schema pre-loaded. Run: docker compose up -d
+services:
+  mariadb:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root_pw
+      MARIADB_DATABASE: equipment_manager
+      MARIADB_USER: equipment
+      MARIADB_PASSWORD: equipment_pw
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./server/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+volumes:
+  mariadb_data:
